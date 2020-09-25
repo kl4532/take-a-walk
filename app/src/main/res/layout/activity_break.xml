@@ -4,7 +4,13 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".Break">
 
-
+    <Button
+        android:id="@+id/button4"
+        android:layout_width="234dp"
+        android:layout_height="123dp"
+        android:text="Take a walk"
+        tools:layout_editor_absoluteX="88dp"
+        tools:layout_editor_absoluteY="288dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>
