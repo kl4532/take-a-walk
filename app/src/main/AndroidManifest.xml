@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".Break"></activity>
-        <activity android:name=".Setup" />
+        <activity android:name=".Settings" />
         <activity android:name=".Timeout" />
         <activity android:name=".MainActivity">
             <intent-filter>
