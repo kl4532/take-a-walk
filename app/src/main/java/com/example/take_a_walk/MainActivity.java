@@ -18,6 +18,8 @@ public class MainActivity extends AppCompatActivity {
         // Show settings view
         Intent setupActivity = new Intent(MainActivity.this, Settings.class);
         this.startActivity(setupActivity);
+        overridePendingTransition(0, 0);
+
     }
 
 }
