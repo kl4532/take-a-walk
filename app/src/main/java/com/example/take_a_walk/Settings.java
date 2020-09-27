@@ -12,15 +12,15 @@ public class Settings extends AppCompatActivity implements View.OnClickListener{
 
     Button btnStartCycle;
     TextView workVal;
-    TextView breakVal;
+    TextView walkVal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        workVal = (TextView) findViewById(R.id.input_work);
-        breakVal = (TextView) findViewById(R.id.input_break);
+        workVal = (TextView) findViewById(R.id.inputWork);
+        walkVal = (TextView) findViewById(R.id.inputWalk);
 
         btnStartCycle = (Button) findViewById(R.id.btnStartCycle);
         btnStartCycle.setOnClickListener(Settings.this);
@@ -30,9 +30,12 @@ public class Settings extends AppCompatActivity implements View.OnClickListener{
     public void onClick(View v) {
         setContentView(R.layout.activity_timeout);
         Intent timeoutActivity = new Intent(Settings.this, Timeout.class);
+        timeoutActivity.putExtra("mode", "work");
         timeoutActivity.putExtra("work", Integer.parseInt(workVal.getText().toString()));
-        timeoutActivity.putExtra("break", Integer.parseInt(breakVal.getText().toString()));
+        timeoutActivity.putExtra("walk", Integer.parseInt(walkVal.getText().toString()));
 
         this.startActivity(timeoutActivity);
+        overridePendingTransition(0, 0);
+
     }
 }

@@ -16,9 +16,10 @@ public class Timeout extends AppCompatActivity {
     Button btnGotoSettings;
     TextView timer;
     TextView info;
-    int breakVal;
+    int walkVal;
     int workVal;
-    int work;
+    String mode;
+    Countdown c;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,16 +29,21 @@ public class Timeout extends AppCompatActivity {
         timer = (TextView) findViewById(R.id.timer);
         info = (TextView) findViewById(R.id.info);
 
-        breakVal = getIntent().getIntExtra("break", 5);
         workVal = getIntent().getIntExtra("work", 60);
+        walkVal = getIntent().getIntExtra("walk", 5);
+        mode = getIntent().getStringExtra("mode");
 
-        work = workVal*60;
-
-        Log.i("work", Integer.toString(workVal));
-        Log.i("break", Integer.toString(breakVal));
+        info.setText(mode);
 
 
-        CountDownTimer c = getCountdown(work);
+
+//        Log.i("work", Integer.toString(workVal));
+//        Log.i("break", Integer.toString(breakVal));
+
+        // Testing!!!! reverse multiplying by 60
+        Log.i("timeout1", "1");
+
+        final CountDownTimer c = getCountdown(workVal, walkVal, mode);
         c.start();
 
 //        Countdown c =  new Countdown(timer,info,135);
@@ -46,15 +52,26 @@ public class Timeout extends AppCompatActivity {
         btnGotoSettings = (Button) findViewById(R.id.btnGotoSettings);
         btnGotoSettings.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
+                c.cancel();
                 startActivity(new Intent(Timeout.this, Settings.class));
+                overridePendingTransition(0, 0);
             }
         });
     }
 
 
-    public CountDownTimer getCountdown (int sec) {
+    public CountDownTimer getCountdown (int work, int walk, final String mode) {
 
-        int milisec = sec * 1000;
+        int milisec;
+
+        if(mode.equals("work")) {
+            milisec = work * 1000;
+        } else {
+            milisec = walk * 1000;
+            Log.i("MILISEC", Integer.toString(milisec));
+
+        }
+
 
         return new CountDownTimer(milisec, 1000) {
 
@@ -74,11 +91,23 @@ public class Timeout extends AppCompatActivity {
             }
 
             public void onFinish() {
+
+                Intent timeoutActivity;
+
                 setContentView(R.layout.activity_break);
-                Intent timeoutActivity = new Intent(Timeout.this, Break.class);
-                timeoutActivity.putExtra("break", breakVal);
+                timeoutActivity = new Intent(Timeout.this, Break.class);
+                timeoutActivity.putExtra("walk", walkVal);
+                timeoutActivity.putExtra("work", workVal);
+
+                if(mode.equals("work")) {
+                    timeoutActivity.putExtra("mode", "walk");
+                } else {
+                    timeoutActivity.putExtra("mode", "work");
+                }
 
                 startActivity(timeoutActivity);
+                overridePendingTransition(0, 0);
+
             }
         };
     }
