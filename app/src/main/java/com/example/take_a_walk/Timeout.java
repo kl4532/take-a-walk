@@ -8,6 +8,7 @@ import android.os.CountDownTimer;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 
@@ -33,14 +34,16 @@ public class Timeout extends AppCompatActivity {
         walkVal = getIntent().getIntExtra("walk", 5);
         mode = getIntent().getStringExtra("mode");
 
-        info.setText(mode);
+        // set image according to mode
 
+        ImageView iv = (ImageView)findViewById(R.id.image);
+        if(mode.equals("walk")) {
+            iv.setImageResource(R.drawable.walk);
+        } else {
+            iv.setImageResource(R.drawable.work);
+        }
 
-
-//        Log.i("work", Integer.toString(workVal));
-//        Log.i("break", Integer.toString(breakVal));
-
-        // Testing!!!! reverse multiplying by 60
+        // Testing!!!! to reverse multiplying by 60
         Log.i("timeout1", "1");
 
         final CountDownTimer c = getCountdown(workVal, walkVal, mode);
@@ -65,11 +68,9 @@ public class Timeout extends AppCompatActivity {
         int milisec;
 
         if(mode.equals("work")) {
-            milisec = work * 1000;
+            milisec = 60 * work * 1000;
         } else {
-            milisec = walk * 1000;
-            Log.i("MILISEC", Integer.toString(milisec));
-
+            milisec = 60 * walk * 1000;
         }
 
 
