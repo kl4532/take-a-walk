@@ -13,9 +13,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        // Start
-
-        // Show settings view
+        // Show settings view at start
         Intent setupActivity = new Intent(MainActivity.this, Settings.class);
         this.startActivity(setupActivity);
         overridePendingTransition(0, 0);
