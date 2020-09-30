@@ -2,9 +2,14 @@ package com.example.take_a_walk;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Context;
 import android.content.Intent;
+import android.media.AudioAttributes;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.VibrationEffect;
+import android.os.Vibrator;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -21,6 +26,8 @@ public class Timeout extends AppCompatActivity {
     int workVal;
     String mode;
     Countdown c;
+    Vibrator vibrator;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +40,8 @@ public class Timeout extends AppCompatActivity {
         workVal = getIntent().getIntExtra("work", 60);
         walkVal = getIntent().getIntExtra("walk", 5);
         mode = getIntent().getStringExtra("mode");
+        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+
 
         // set image according to mode
 
@@ -68,9 +77,9 @@ public class Timeout extends AppCompatActivity {
         int milisec;
 
         if(mode.equals("work")) {
-            milisec = 60 * work * 1000;
+            milisec = 1 * work * 1000;
         } else {
-            milisec = 60 * walk * 1000;
+            milisec = 1 * walk * 1000;
         }
 
 
@@ -106,11 +115,31 @@ public class Timeout extends AppCompatActivity {
                     timeoutActivity.putExtra("mode", "work");
                 }
 
+                // But it need to be also canceled, try Service to use vibrator globally for all activities!
+                Log.i("FINISHED", "VIBRATE!");
+                vibrate(0, 100, 5000, true);
+
                 startActivity(timeoutActivity);
+
                 overridePendingTransition(0, 0);
 
             }
         };
+    }
+
+    public void vibrate(int delay, int vibration, int sleep, boolean repeat) {
+        long[] pattern = {delay, vibration, sleep};
+
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            vibrator.vibrate(VibrationEffect.createWaveform(pattern, repeat ? 0 : -1),
+                    new AudioAttributes.Builder()
+                            .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                            .setUsage(AudioAttributes.USAGE_ALARM)
+                            .build());
+        } else {
+            vibrator.vibrate(pattern, 0);
+        }
     }
 
 

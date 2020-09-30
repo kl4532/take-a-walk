@@ -33,8 +33,6 @@ public class Break extends AppCompatActivity {
         walkVal = getIntent().getIntExtra("walk", 5);
         mode = getIntent().getStringExtra("mode");
 
-//        Log.i("breakVal", Integer.toString(breakVal));
-
         btnStart = (Button) findViewById(R.id.btnStart);
 
         if(mode.equals("work")) {
@@ -61,7 +59,7 @@ public class Break extends AppCompatActivity {
 //        }
 
         // start delay, vibrate, sleep, repeat
-        vibrate(0, 100, 10000, true);
+//        vibrate(0, 100, 10000, true);
 
         btnStart.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
@@ -79,7 +77,7 @@ public class Break extends AppCompatActivity {
         });
 
     }
-
+// moved to timeout , remove from break
     public void vibrate(int delay, int vibration, int sleep, boolean repeat) {
         long[] pattern = {delay, vibration, sleep};
 
