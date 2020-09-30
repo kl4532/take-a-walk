@@ -25,7 +25,6 @@ public class Timeout extends AppCompatActivity {
     int walkVal;
     int workVal;
     String mode;
-    Countdown c;
     Vibrator vibrator;
 
 
@@ -40,11 +39,13 @@ public class Timeout extends AppCompatActivity {
         workVal = getIntent().getIntExtra("work", 60);
         walkVal = getIntent().getIntExtra("walk", 5);
         mode = getIntent().getStringExtra("mode");
-        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
 
-        // set image according to mode
+//        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        Singleton app = Singleton.getInstance();
+        vibrator = (Vibrator) app.getSystemService(Context.VIBRATOR_SERVICE);
 
+//        set image according to mode
         ImageView iv = (ImageView)findViewById(R.id.image);
         if(mode.equals("walk")) {
             iv.setImageResource(R.drawable.walk);
@@ -52,14 +53,11 @@ public class Timeout extends AppCompatActivity {
             iv.setImageResource(R.drawable.work);
         }
 
-        // Testing!!!! to reverse multiplying by 60
-        Log.i("timeout1", "1");
+//        Testing!!!! to reverse multiplying by 60
+//        Log.i("timeout1", "1");
 
         final CountDownTimer c = getCountdown(workVal, walkVal, mode);
         c.start();
-
-//        Countdown c =  new Countdown(timer,info,135);
-//        c.start();
 
         btnGotoSettings = (Button) findViewById(R.id.btnGotoSettings);
         btnGotoSettings.setOnClickListener(new View.OnClickListener(){
@@ -74,12 +72,12 @@ public class Timeout extends AppCompatActivity {
 
     public CountDownTimer getCountdown (int work, int walk, final String mode) {
 
-        int milisec;
+        long milisec;
 
         if(mode.equals("work")) {
-            milisec = 1 * work * 1000;
+            milisec = 60 * work * 1000;
         } else {
-            milisec = 1 * walk * 1000;
+            milisec = 60 * walk * 1000;
         }
 
 
@@ -115,8 +113,6 @@ public class Timeout extends AppCompatActivity {
                     timeoutActivity.putExtra("mode", "work");
                 }
 
-                // But it need to be also canceled, try Service to use vibrator globally for all activities!
-                Log.i("FINISHED", "VIBRATE!");
                 vibrate(0, 100, 5000, true);
 
                 startActivity(timeoutActivity);
@@ -130,7 +126,6 @@ public class Timeout extends AppCompatActivity {
     public void vibrate(int delay, int vibration, int sleep, boolean repeat) {
         long[] pattern = {delay, vibration, sleep};
 
-
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             vibrator.vibrate(VibrationEffect.createWaveform(pattern, repeat ? 0 : -1),
                     new AudioAttributes.Builder()
@@ -141,11 +136,4 @@ public class Timeout extends AppCompatActivity {
             vibrator.vibrate(pattern, 0);
         }
     }
-
-
-//    @Override
-//    public void onClick(View v) {
-//        Log.i("tag", "Jump to setup");
-//        setContentView(R.layout.activity_setup);
-//    }
 }

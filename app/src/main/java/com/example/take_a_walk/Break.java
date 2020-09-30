@@ -41,7 +41,10 @@ public class Break extends AppCompatActivity {
             btnStart.setText("take a walk");
         }
 
-        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+        Singleton app = Singleton.getInstance();
+        vibrator = (Vibrator) app.getSystemService(Context.VIBRATOR_SERVICE);
+
+
 //
 //        new Timer().scheduleAtFixedRate(new TimerTask(){
 //            @Override
