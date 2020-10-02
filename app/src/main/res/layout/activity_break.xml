@@ -10,7 +10,7 @@
         android:id="@+id/btnStart"
         android:layout_width="274dp"
         android:layout_height="156dp"
-        android:text="Take a walk"
+        android:text=""
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

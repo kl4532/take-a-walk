@@ -9,9 +9,10 @@
 
     <TextView
         android:id="@+id/label-walk"
-        android:layout_width="50dp"
+        android:layout_width="wrap_content"
         android:layout_height="30dp"
         android:text="walk"
+        android:textAllCaps="true"
         android:textSize="18sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/inputWalk"
         app:layout_constraintEnd_toStartOf="@+id/inputWalk"
@@ -20,10 +21,10 @@
 
     <TextView
         android:id="@+id/label-work"
-        android:layout_width="50dp"
+        android:layout_width="wrap_content"
         android:layout_height="30dp"
-
         android:text="work"
+        android:textAllCaps="true"
         android:textSize="18sp"
         app:layout_constraintBaseline_toBaselineOf="@+id/inputWork"
         app:layout_constraintEnd_toStartOf="@+id/inputWork"
@@ -41,9 +42,10 @@
         android:text="5"
         android:textAppearance="@style/TextAppearance.AppCompat.Large"
         android:textSize="50sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/inputWork"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/label-walk"
+        app:layout_constraintStart_toStartOf="@+id/inputWork"
         app:layout_constraintTop_toBottomOf="@+id/inputWork" />
 
     <EditText
