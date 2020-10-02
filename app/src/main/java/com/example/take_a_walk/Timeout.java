@@ -41,16 +41,16 @@ public class Timeout extends AppCompatActivity {
         mode = getIntent().getStringExtra("mode");
 
 
-//        vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+//      Get up vibrator instance with Singleton
         Singleton app = Singleton.getInstance();
         vibrator = (Vibrator) app.getSystemService(Context.VIBRATOR_SERVICE);
 
-//        set image according to mode
+//       Set image according to mode
         ImageView iv = (ImageView)findViewById(R.id.image);
         if(mode.equals("walk")) {
-            iv.setImageResource(R.drawable.walk);
+            iv.setImageResource(R.drawable.walk_img);
         } else {
-            iv.setImageResource(R.drawable.work);
+            iv.setImageResource(R.drawable.work_img);
         }
 
 //        Testing!!!! to reverse multiplying by 60
@@ -64,7 +64,7 @@ public class Timeout extends AppCompatActivity {
             public void onClick(View v){
                 c.cancel();
                 startActivity(new Intent(Timeout.this, Settings.class));
-                overridePendingTransition(0, 0);
+                overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
             }
         });
     }
@@ -116,9 +116,7 @@ public class Timeout extends AppCompatActivity {
                 vibrate(0, 100, 5000, true);
 
                 startActivity(timeoutActivity);
-
                 overridePendingTransition(0, 0);
-
             }
         };
     }
