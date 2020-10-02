@@ -41,11 +41,11 @@ public class Timeout extends AppCompatActivity {
         mode = getIntent().getStringExtra("mode");
 
 
-//      Get up vibrator instance with Singleton
+//        Get vibrator instance with Singleton
         Singleton app = Singleton.getInstance();
         vibrator = (Vibrator) app.getSystemService(Context.VIBRATOR_SERVICE);
 
-//       Set image according to mode
+//        Set image according to mode
         ImageView iv = (ImageView)findViewById(R.id.image);
         if(mode.equals("walk")) {
             iv.setImageResource(R.drawable.walk_img);
@@ -63,7 +63,11 @@ public class Timeout extends AppCompatActivity {
         btnGotoSettings.setOnClickListener(new View.OnClickListener(){
             public void onClick(View v){
                 c.cancel();
-                startActivity(new Intent(Timeout.this, Settings.class));
+                Intent settingsActivity = new Intent(Timeout.this, Settings.class);
+                settingsActivity.putExtra("work", workVal);
+                settingsActivity.putExtra("walk", walkVal);
+
+                startActivity(settingsActivity);
                 overridePendingTransition(R.anim.pull_in_right, R.anim.push_out_left);
             }
         });
@@ -75,9 +79,9 @@ public class Timeout extends AppCompatActivity {
         long milisec;
 
         if(mode.equals("work")) {
-            milisec = 60 * work * 1000;
+            milisec = 1 * work * 1000;
         } else {
-            milisec = 60 * walk * 1000;
+            milisec = 1 * walk * 1000;
         }
 
 
@@ -100,22 +104,21 @@ public class Timeout extends AppCompatActivity {
 
             public void onFinish() {
 
-                Intent timeoutActivity;
+                Intent breakActivity;
 
-                setContentView(R.layout.activity_break);
-                timeoutActivity = new Intent(Timeout.this, Break.class);
-                timeoutActivity.putExtra("walk", walkVal);
-                timeoutActivity.putExtra("work", workVal);
+                breakActivity = new Intent(Timeout.this, Break.class);
+                breakActivity.putExtra("walk", walkVal);
+                breakActivity.putExtra("work", workVal);
 
                 if(mode.equals("work")) {
-                    timeoutActivity.putExtra("mode", "walk");
+                    breakActivity.putExtra("mode", "walk");
                 } else {
-                    timeoutActivity.putExtra("mode", "work");
+                    breakActivity.putExtra("mode", "work");
                 }
 
                 vibrate(0, 100, 5000, true);
 
-                startActivity(timeoutActivity);
+                startActivity(breakActivity);
                 overridePendingTransition(0, 0);
             }
         };

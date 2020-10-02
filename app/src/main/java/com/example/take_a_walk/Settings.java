@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -12,28 +13,39 @@ import android.widget.EditText;
 public class Settings extends AppCompatActivity implements View.OnClickListener {
 
     Button btnStartCycle;
-    EditText workVal;
-    EditText walkVal;
+    EditText inputWork;
+    EditText inputWalk;
+    int workVal;
+    int walkVal;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
 
-        workVal = (EditText) findViewById(R.id.inputWork);
-        walkVal = (EditText) findViewById(R.id.inputWalk);
+        inputWork = (EditText) findViewById(R.id.inputWork);
+        inputWalk = (EditText) findViewById(R.id.inputWalk);
 
-//      Validate inputs
-        workVal.addTextChangedListener(new TextChangeListener<EditText>(workVal) {
+//        Get values when redirected from TimeoutActivity
+        workVal = getIntent().getIntExtra("work", 0);
+        walkVal = getIntent().getIntExtra("walk", 0);
+
+        if(workVal>0 && walkVal>0) {
+            inputWork.setText(Integer.toString(workVal));
+            inputWalk.setText(Integer.toString(walkVal));
+        }
+        
+//        Validate inputs
+        inputWork.addTextChangedListener(new TextChangeListener<EditText>(inputWork) {
             @Override
             public void onTextChanged(EditText target, Editable s) {
-                btnStartCycle.setEnabled(isValid(workVal));
+                btnStartCycle.setEnabled(isValid(inputWork));
             }
         });
-        walkVal.addTextChangedListener(new TextChangeListener<EditText>(walkVal) {
+        inputWalk.addTextChangedListener(new TextChangeListener<EditText>(inputWalk) {
             @Override
             public void onTextChanged(EditText target, Editable s) {
-                btnStartCycle.setEnabled(isValid(walkVal));
+                btnStartCycle.setEnabled(isValid(inputWalk));
             }
         });
 
@@ -45,18 +57,24 @@ public class Settings extends AppCompatActivity implements View.OnClickListener 
     public void onClick(View v) {
         Intent timeoutActivity = new Intent(Settings.this, Timeout.class);
         timeoutActivity.putExtra("mode", "work");
-        timeoutActivity.putExtra("work", Integer.parseInt(workVal.getText().toString()));
-        timeoutActivity.putExtra("walk", Integer.parseInt(walkVal.getText().toString()));
+        timeoutActivity.putExtra("work", Integer.parseInt(inputWork.getText().toString()));
+        timeoutActivity.putExtra("walk", Integer.parseInt(inputWalk.getText().toString()));
 
         this.startActivity(timeoutActivity);
         overridePendingTransition(R.anim.pull_in_left, R.anim.push_out_right);
     }
 
     public boolean isValid(EditText input) {
-        if(input.getText().toString().isEmpty() || input.getText().toString().isEmpty()) {
+        if(input.getText().toString().isEmpty()) {
             return false;
-        } else {
-            return true;
         }
+
+        int value = Integer.parseInt(input.getText().toString());
+
+        if (value==0) {
+            return false;
+        }
+
+        return true;
     }
 }
