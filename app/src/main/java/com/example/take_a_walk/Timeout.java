@@ -79,9 +79,9 @@ public class Timeout extends AppCompatActivity {
         long milisec;
 
         if(mode.equals("work")) {
-            milisec = 1 * work * 1000;
+            milisec = 60 * work * 1000;
         } else {
-            milisec = 1 * walk * 1000;
+            milisec = 60 * walk * 1000;
         }
 
 
